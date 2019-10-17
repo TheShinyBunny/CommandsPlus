@@ -1,0 +1,21 @@
+{
+  "commands.replaceitem.failed.block": "Target block has no inventory",
+  "commands.modifyitem.failed.no_items": "No items were modified",
+  "commands.modifyitem.failed.enchantment.non_positive_level": "Cannot enchant item with a non-positive level %d",
+  "commands.modifyitem.failed.enchantment.set.equal_levels": "%s already has that enchantment on rank %d",
+  "commands.modifyitem.failed.enchantment.remove.invalid_level": "Invalid rank number to remove, must only be positive or -1",
+  "commands.modifyitem.failed.enchantment.remove.ench_not_present": "Item %s is not enchanted with %s",
+  "commands.modifyitem.failed.enchantment.clear.no_enchants": "Item %s is not enchanted",
+  "commands.modifyitem.failed.damage.not_damageable": "Item %s is is not damageable",
+  "commands.modifyitem.success.enchantment.add": "Added %d ranks of enchantment %s to %d items",
+  "commands.modifyitem.success.enchantment.set": "Set %s to %d items",
+  "commands.modifyitem.success.enchantment.remove": "Removed %d ranks off enchantment %s for %d items",
+  "commands.modifyitem.success.enchantment.clear": "Cleared all enchantments from %d items",
+  "commands.modifyitem.success.damage.add": "Damaged %d items by %d",
+  "commands.modifyitem.success.damage.restore": "Restored %d damage to %d items",
+  "commands.modifyitem.success.damage.set": "Set damage to %d for %d items",
+  "commands.modifyitem.success.nbt.merge": "Merged nbt %s to %d items",
+  "commands.modifyitem.success.nbt.set": "Set nbt of %d items to %s",
+  "commands.modifyitem.success.nbt.clear": "Cleared nbt of %d items"
+
+}
