@@ -62,7 +62,7 @@ public class ModifyEnchantments implements ModifyActionType<ModifyEnchantments.M
             @Override
             public void modify(ModifyExecuteContext ctx, ItemStack item) throws CommandSyntaxException {
                 Enchantment enchantment = ctx.get(ENCHANTMENT);
-                int rank = ctx.get(RANK);
+                int rank = ctx.get(RANK,1);
                 Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(item);
                 if (enchantments.getOrDefault(enchantment, 0) == rank) {
                     throw EQUAL_LEVELS_EXCEPTION.create(item, rank);
@@ -79,7 +79,7 @@ public class ModifyEnchantments implements ModifyActionType<ModifyEnchantments.M
 
             @Override
             public void validate(ModifyExecuteContext ctx) throws CommandSyntaxException {
-                int rank = ctx.get(RANK);
+                int rank = ctx.get(RANK,1);
                 if (rank <= 0) {
                     throw NON_POSITIVE_LEVEL_EXCEPTION.create(RANK);
                 }
@@ -94,7 +94,7 @@ public class ModifyEnchantments implements ModifyActionType<ModifyEnchantments.M
             @Override
             public void modify(ModifyExecuteContext ctx, ItemStack item) throws CommandSyntaxException {
                 Enchantment enchantment = ctx.get(ENCHANTMENT);
-                int rank = ctx.get(RANK);
+                int rank = ctx.get(RANK,1);
                 Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(item);
                 enchantments.put(enchantment, rank);
                 EnchantmentHelper.set(enchantments, item);
@@ -107,7 +107,7 @@ public class ModifyEnchantments implements ModifyActionType<ModifyEnchantments.M
 
             @Override
             public void validate(ModifyExecuteContext ctx) throws CommandSyntaxException {
-                int rank = ctx.get(RANK);
+                int rank = ctx.get(RANK,1);
                 if (rank <= 0) {
                     throw NON_POSITIVE_LEVEL_EXCEPTION.create(RANK);
                 }
@@ -122,13 +122,13 @@ public class ModifyEnchantments implements ModifyActionType<ModifyEnchantments.M
             @Override
             public void modify(ModifyExecuteContext ctx, ItemStack item) throws CommandSyntaxException {
                 Enchantment enchantment = ctx.get(ENCHANTMENT);
-                int rank = ctx.get(RANK);
+                int rank = ctx.get(RANK,-1);
                 Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(item);
                 if (!enchantments.containsKey(enchantment)) {
                     throw ITEM_DOESNT_HAVE_ENCHANTMENT.create(item.getName(), I18n.translate(enchantment.getTranslationKey()));
                 }
                 int resultLevel = enchantments.get(enchantment) - rank;
-                if (resultLevel <= 0) {
+                if (rank == -1 || resultLevel <= 0) {
                     enchantments.remove(enchantment);
                 } else {
                     enchantments.put(enchantment, resultLevel);
@@ -138,13 +138,13 @@ public class ModifyEnchantments implements ModifyActionType<ModifyEnchantments.M
 
             @Override
             public Text getSuccessMessage(ModifyExecuteContext ctx, int itemCount) {
-                return null;
+                return new TranslatableText("commands.modifyitem.success.enchantment.remove",ctx.get(RANK),I18n.translate(ctx.get(ENCHANTMENT).getTranslationKey()),itemCount);
             }
 
             @Override
             public void validate(ModifyExecuteContext ctx) throws CommandSyntaxException {
-                int rank = ctx.get(RANK);
-                if (rank <= 0) {
+                int rank = ctx.get(RANK,-1);
+                if (rank < -1 || rank == 0) {
                     throw NON_POSITIVE_LEVEL_EXCEPTION.create(RANK);
                 }
             }

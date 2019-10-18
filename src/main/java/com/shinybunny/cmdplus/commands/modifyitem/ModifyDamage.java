@@ -84,7 +84,7 @@ public class ModifyDamage implements ModifyActionType<ModifyDamage.Mode> {
                 result = 0;
             }
             if (result > item.getMaxDamage()) {
-                throw new ModifyItemCommand.RemoveItem();
+                throw new RemoveItem();
             }
             item.setDamage(result);
         }

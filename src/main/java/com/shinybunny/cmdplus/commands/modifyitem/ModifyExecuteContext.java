@@ -23,16 +23,16 @@ public class ModifyExecuteContext extends ModifyContext {
         return cmdCtx;
     }
 
-    public <T> T get(Class<? extends ArgumentType<T>> argumentType, String name) {
-        return cmdCtx.getArgument(name,(Class<T>)argumentType.getTypeParameters()[0].getBounds()[0]);
-    }
-
     public void sendError(Text text) {
         cmdCtx.getSource().sendError(text);
     }
 
     public void sendFeedback(Text text) {
         cmdCtx.getSource().sendFeedback(text,true);
+    }
+
+    public <T> void set(ArgumentKey<T> key, T value) {
+        valueCache.put(key,value);
     }
 
     public <T> T get(ArgumentKey<T> key) {
@@ -42,5 +42,10 @@ public class ModifyExecuteContext extends ModifyContext {
             valueCache.put(key, t);
         }
         return (T) t;
+    }
+
+    public <T> T get(ArgumentKey<T> key, T def) {
+        T t = get(key);
+        return t == null ? def : t;
     }
 }

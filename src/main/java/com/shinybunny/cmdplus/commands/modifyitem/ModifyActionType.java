@@ -39,8 +39,13 @@ public interface ModifyActionType<M extends ModifyActionType.ActionMode> {
 
     M[] getModes();
 
-    static int execute(CommandContext<ServerCommandSource> ctx, ActionMode mode, ModifyContext modifyContext) throws CommandSyntaxException {
+    default void addArguments(ModifyExecuteContext ctx) {
+
+    }
+
+    default int execute(CommandContext<ServerCommandSource> ctx, ActionMode mode, ModifyContext modifyContext) throws CommandSyntaxException {
         ModifyExecuteContext executeCtx = new ModifyExecuteContext(modifyContext.getInventoryType(),modifyContext.getFinderType(),ctx);
+        addArguments(executeCtx);
         mode.validate(executeCtx);
         return forEachItem(executeCtx,mode);
     }
@@ -59,15 +64,15 @@ public interface ModifyActionType<M extends ModifyActionType.ActionMode> {
                     ItemStack stack = e.getValue().copy();
                     try {
                         mode.modify(ctx,stack);
+                        changes.put(e.getKey(), stack);
                     } catch (RemoveItem re) {
                         changes.put(e.getKey(), ItemStack.EMPTY);
                     } catch (Exception ex) {
-                        System.out.println("here");
                         ctx.sendError(new LiteralText(ex.getMessage()));
                         ex.printStackTrace();
                         continue;
                     }
-                    changes.put(e.getKey(), stack);
+
                     i++;
                 }
                 changes.forEach(h::setItem);
